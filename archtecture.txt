@@ -1,0 +1,21 @@
+test_monorepo/
+├── frontend/          # Next.jsアプリケーション
+│   ├── src/
+│   │   ├── app/
+│   │   │   └── page.tsx    # メインページコンポーネント
+│   │   └── ...
+│   ├── package.json
+│   └── ...
+│
+├── backend/           # Honoアプリケーション
+│   ├── src/
+│   │   └── index.ts  # バックエンドのメインサーバーファイル
+│   ├── prisma/
+│   │   ├── schema.prisma   # Prismaスキーマ定義
+│   │   └── migrations/     # データベースマイグレーションファイル
+│   ├── package.json
+│   └── .env          # バックエンドの環境変数
+│
+└── docker/           # Docker関連ファイル
+    ├── frontend.Dockerfile
+    └── backend.Dockerfile
