@@ -12,7 +12,20 @@ const prisma = new PrismaClient({
 const app = new Hono();
 
 // CORSミドルウェアの設定
-app.use("/*", cors());
+app.use(
+  "/*",
+  cors({
+    origin: [
+      "https://practice-microservice-front.vercel.app",
+      "http://localhost:3000",
+    ],
+    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowHeaders: ["Content-Type"],
+    exposeHeaders: ["Content-Length"],
+    maxAge: 600,
+    credentials: true,
+  })
+);
 
 // データベース接続の確認
 prisma

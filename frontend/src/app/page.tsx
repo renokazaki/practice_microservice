@@ -18,45 +18,66 @@ export default function Home() {
   }, []);
 
   const fetchTodos = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todos`);
-    const data = await response.json();
-    setTodos(data);
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todos`, {
+        credentials: "include",
+      });
+      const data = await response.json();
+      setTodos(data);
+    } catch (error) {
+      console.error("Error fetching todos:", error);
+    }
   };
 
   const addTodo = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTodo.trim()) return;
 
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todos`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ title: newTodo }),
-    });
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todos`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ title: newTodo }),
+      });
 
-    setNewTodo("");
-    fetchTodos();
+      setNewTodo("");
+      fetchTodos();
+    } catch (error) {
+      console.error("Error adding todo:", error);
+    }
   };
 
   const toggleTodo = async (id: number, completed: boolean) => {
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todos/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ completed: !completed }),
-    });
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todos/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ completed: !completed }),
+      });
 
-    fetchTodos();
+      fetchTodos();
+    } catch (error) {
+      console.error("Error toggling todo:", error);
+    }
   };
 
   const deleteTodo = async (id: number) => {
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todos/${id}`, {
-      method: "DELETE",
-    });
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todos/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
 
-    fetchTodos();
+      fetchTodos();
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
   };
 
   return (
