@@ -18,6 +18,7 @@ app.use(
     origin: [
       "https://practice-microservice-front.vercel.app",
       "https://practice-microservice-front-*.vercel.app",
+      "https://practice-microservice-front-l0eolte3b-renokazakis-projects.vercel.app",
       "http://localhost:3000",
     ],
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
