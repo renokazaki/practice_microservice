@@ -23,9 +23,15 @@ export default function Home() {
         credentials: "include",
       });
       const data = await response.json();
-      setTodos(data);
+      if (Array.isArray(data)) {
+        setTodos(data);
+      } else {
+        console.error("API response is not an array:", data);
+        setTodos([]);
+      }
     } catch (error) {
       console.error("Error fetching todos:", error);
+      setTodos([]);
     }
   };
 
