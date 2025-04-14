@@ -8,21 +8,18 @@ const prisma = new PrismaClient({
   log: ["query", "error", "warn"],
 });
 
-// アプリケーションの初期化
 const app = new Hono();
 
-// CORSミドルウェアの設定
+// 環境に基づいてCORS設定を変更
+const isDevelopment = process.env.NODE_ENV !== "production";
+
 app.use(
-  "/*",
+  "*",
   cors({
-    origin: [
-      "https://practice-microservice-front.vercel.app",
-      "https://practice-microservice-front-*.vercel.app",
-      "https://practice-microservice-front-l0eolte3b-renokazakis-projects.vercel.app",
-      "http://localhost:3000",
-    ],
-    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowHeaders: ["Content-Type"],
+    // 開発環境では特定のオリジン、本番環境ではすべてのオリジンを許可
+    origin: isDevelopment ? ["http://localhost:3000"] : "*", // すべてのオリジンを許可（本番環境用としては推奨されません）
+    allowMethods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowHeaders: ["Content-Type", "Authorization"],
     exposeHeaders: ["Content-Length"],
     maxAge: 600,
     credentials: true,
