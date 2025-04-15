@@ -4,6 +4,10 @@ import { cors } from "hono/cors";
 import { PrismaClient } from "@prisma/client";
 import { handle } from "hono/vercel";
 
+export const config = {
+  runtime: "edge",
+};
+
 // Prismaクライアントの初期化
 const prisma = new PrismaClient({
   log: ["query", "error", "warn"],
