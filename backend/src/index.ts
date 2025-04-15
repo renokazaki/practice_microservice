@@ -2,6 +2,7 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { PrismaClient } from "@prisma/client";
+import { handle } from "hono/vercel";
 
 // Prismaクライアントの初期化
 const prisma = new PrismaClient({
@@ -10,14 +11,11 @@ const prisma = new PrismaClient({
 
 const app = new Hono();
 
-// 環境に基づいてCORS設定を変更
-const isDevelopment = process.env.NODE_ENV !== "production";
-
 app.use(
   "*",
   cors({
     // 開発環境では特定のオリジン、本番環境ではすべてのオリジンを許可
-    origin: isDevelopment ? ["http://localhost:3000"] : "*", // すべてのオリジンを許可（本番環境用としては推奨されません）
+    origin: ["http://localhost:3000"],
     allowMethods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
     exposeHeaders: ["Content-Length"],
@@ -102,3 +100,8 @@ serve({
   fetch: app.fetch,
   port: 3001,
 });
+
+export const GET = handle(app);
+export const POST = handle(app);
+export const PUT = handle(app);
+export const DELETE = handle(app);
