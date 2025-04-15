@@ -2,10 +2,6 @@ import { Hono } from "hono";
 import { handle } from "hono/vercel";
 import { PrismaClient } from "@prisma/client";
 
-// 代わりにServerless設定を使用
-export const config = {
-  runtime: "nodejs18.x", // または "nodejs20.x" などの新しいバージョン
-};
 // Prismaクライアントの初期化
 const prisma = new PrismaClient({
   log: ["query", "error", "warn"],
